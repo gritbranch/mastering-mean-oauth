@@ -31,4 +31,30 @@ module.exports = function(app) {
 		failureRedirect: '/signin',
 		successRedirect: '/'
 	}));
+	
+	//Start the user authentication process
+	app.get('/oauth/twitter', passport.authenticate('twitter', {
+  		failureRedirect: '/signin'
+	}));
+
+	//Finish the authentication process once the user has used their Twitter profile to connect.
+	app.get('/oauth/twitter/callback', passport.authenticate('twitter', {
+  		failureRedirect: '/signin',
+  		successRedirect: '/'
+	}));
+	
+	//Start the user authentication process
+	app.get('/oauth/google', passport.authenticate('google', {
+  		failureRedirect: '/signin',
+  		scope: [
+    		'https://www.googleapis.com/auth/userinfo.profile',
+    		'https://www.googleapis.com/auth/userinfo.email'
+  		],
+	}));
+
+	//Finish the authentication process once the user used their Google profile to connect.
+	app.get('/oauth/google/callback', passport.authenticate('google', {
+  		failureRedirect: '/signin',
+  		successRedirect: '/'
+	}));
 };
